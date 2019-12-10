@@ -1,7 +1,12 @@
 package EventManager;
 
 import Bot.SniperBot;
+import Commands.Admit;
+import Commands.BuyerRole;
+import Commands.MemberCount;
 import Commands.Ping;
+import Commands.SellerRole;
+import Commands.Staff;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -39,9 +44,33 @@ public class EventManager extends ListenerAdapter {
         String[] args = message.getContentRaw().split("\\s+");
 
         if (args[0].equals("!ping")) {
-            System.out.println("Ping event.");
             event.getChannel().sendTyping().complete();
             Ping.sendPing(event);
+        }
+
+        if (args[0].equals("!members")) {
+            event.getChannel().sendTyping().complete();
+            MemberCount.sendMemberCount(event);
+        }
+
+        if (args[0].equals("!buyer")) {
+            event.getChannel().sendTyping().complete();
+            BuyerRole.applyBuyerRole(event);
+        }
+
+        if (args[0].equals("!seller")) {
+            event.getChannel().sendTyping().complete();
+            SellerRole.applySellerRole(event);
+        }
+
+        if (args[0].equals("!staff")) {
+            event.getChannel().sendTyping().complete();
+            Staff.sendStaff(event);
+        }
+
+        if (args[0].equals("!admit")) {
+            event.getChannel().sendTyping().complete();
+            Admit.admitMember(event);
         }
     }
 }
