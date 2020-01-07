@@ -2,7 +2,7 @@ package Bot;
 
 import EventManager.EventManager;
 import Utils.BotLogger;
-import Utils.DatabaseWriter;
+import Utils.DatabaseClient;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class SniperBot {
     public static JDA jda;
     public static String prefix = "!";
-    public static DatabaseWriter databaseWriter;
+    public static DatabaseClient databaseClient;
     public static BotLogger botLogger;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
@@ -32,7 +32,7 @@ public class SniperBot {
         jda.getPresence().setActivity(Activity.listening("for commands."));
 
         botLogger = new BotLogger();
-        databaseWriter = new DatabaseWriter();
+        databaseClient = new DatabaseClient();
 
         botLogger.logMessage("[FireBot.main] - New bot session started.");
     }
