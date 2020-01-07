@@ -9,6 +9,7 @@ import Commands.Info;
 import Commands.Join;
 import Commands.MemberCount;
 import Commands.MemberMessages;
+import Commands.Notify;
 import Commands.Ping;
 import Commands.SellerRole;
 import Commands.Staff;
@@ -167,6 +168,16 @@ public class EventManager extends ListenerAdapter {
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !FFOTD command into database.");
             }
             FFOTD.changeFFOTD(event);
+        }
+
+        if (args[0].equals("!notify")) {
+            try {
+                SniperBot.databaseClient.insertCommand(event);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !notify command into database.");
+            }
+            Notify.sendNotification(event);
         }
     }
 }

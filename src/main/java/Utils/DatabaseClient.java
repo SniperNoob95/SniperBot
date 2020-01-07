@@ -112,7 +112,9 @@ public class DatabaseClient {
             preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Messages WHERE userID = ?");
             preparedStatement.setString(1, event.getAuthor().getId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("total");
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[DatabaseWriter.memberMessages] - Failed to get member message count.");
@@ -141,10 +143,12 @@ public class DatabaseClient {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Messages");
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("total");
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            SniperBot.botLogger.logError("[DatabaseWriter.memberMessages] - Failed to get member message count.");
+            SniperBot.botLogger.logError("[DatabaseWriter.totalMessages] - Failed to get total message count.");
         } finally {
             if (preparedStatement != null && !preparedStatement.isClosed()) {
                 preparedStatement.close();
