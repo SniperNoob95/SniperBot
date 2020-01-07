@@ -10,10 +10,8 @@ import java.util.Objects;
 public class Join {
 
     public static void requestJoin(MessageReceivedEvent event) {
-
-        // TODO check restricted
         try {
-            if (!Objects.requireNonNull(event.getMember()).getRoles().get(0).getName().equals("Restricted") && !event.getChannel().getName().equals("restricted")) {
+            if (!(Objects.requireNonNull(event.getMember()).getRoles().get(0).getName().equals("Restricted") && event.getChannel().getName().equals("restricted"))) {
                 TextChannel channel = event.getGuild().getTextChannelsByName("restricted", false).get(0);
                 event.getChannel().sendTyping().complete();
                 event.getChannel().sendMessage(String.format("This command can only be used by Restricted users in the %s channel.", channel.getAsMention())).queue();

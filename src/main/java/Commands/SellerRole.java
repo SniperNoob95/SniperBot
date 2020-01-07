@@ -30,13 +30,12 @@ public class SellerRole {
                     event.getChannel().sendTyping().complete();
                     event.getChannel().sendMessage(String.format("Removed Seller role from %s.", member.getAsMention())).queue();
                     return;
-                } else {
-                    event.getGuild().addRoleToMember(member, sellerRole).queue();
-                    event.getChannel().sendTyping().complete();
-                    event.getChannel().sendMessage(String.format("Added Seller role to %s.", member.getAsMention())).queue();
-                    return;
                 }
             }
+
+            event.getGuild().addRoleToMember(member, sellerRole).queue();
+            event.getChannel().sendTyping().complete();
+            event.getChannel().sendMessage(String.format("Added Seller role to %s.", member.getAsMention())).queue();
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[SellerRole.applySellerRole] - Failed to apply seller role.");

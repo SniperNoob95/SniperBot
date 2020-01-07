@@ -35,8 +35,11 @@ public class Notify {
             event.getChannel().sendMessage("Zero or more than one restricted channel exists, please ping Sniper Noob to add one or remove the duplicates.").queue();
             return;
         }
-        event.getChannel().sendTyping().complete();
-        event.getChannel().sendMessage(String.format("This command can only be used in the %s channel.", textChannels.get(0).getAsMention())).queue();
+        if (!event.getChannel().getName().equals("restricted")) {
+            event.getChannel().sendTyping().complete();
+            event.getChannel().sendMessage(String.format("This command can only be used in the %s channel.", textChannels.get(0).getAsMention())).queue();
+            return;
+        }
 
         roleList = event.getGuild().getRolesByName("Restricted", false);
         if (roleList.size() != 1) {

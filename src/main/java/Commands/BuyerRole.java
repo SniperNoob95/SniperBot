@@ -30,13 +30,12 @@ public class BuyerRole {
                     event.getChannel().sendTyping().complete();
                     event.getChannel().sendMessage(String.format("Removed Buyer role from %s.", member.getAsMention())).queue();
                     return;
-                } else {
-                    event.getGuild().addRoleToMember(member, buyerRole).queue();
-                    event.getChannel().sendTyping().complete();
-                    event.getChannel().sendMessage(String.format("Added Buyer role to %s.", member.getAsMention())).queue();
-                    return;
                 }
             }
+
+            event.getGuild().addRoleToMember(member, buyerRole).queue();
+            event.getChannel().sendTyping().complete();
+            event.getChannel().sendMessage(String.format("Added Buyer role to %s.", member.getAsMention())).queue();
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[BuyerRole.applyBuyerRole] - Failed to apply buyer role.");
