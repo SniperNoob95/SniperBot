@@ -214,7 +214,6 @@ public class DatabaseClient {
             while (resultSet.next()) {
                 ++rowCount;
             }
-            System.out.println(rowCount);
             resultSet.beforeFirst();
             result.append("\n```");
             if (rowCount > 18) {
@@ -226,7 +225,7 @@ public class DatabaseClient {
                     String spell1 = resultSet.getString("spell1");
                     String spell2 = resultSet.getString("spell2");
                     String price = resultSet.getBigDecimal("price").toPlainString();
-                    result.append(String.format("\\n%s\\t%s\\t%s\\t%s\\t%s\\t%s", date, itemName, quality, spell1, spell2, price));
+                    result.append(String.format("\n%s\t%s\t%s\t%s\t%s\t%s", date, itemName, quality, spell1, spell2, price));
                     result.append(String.format("+%s results...", resultSet.getFetchSize() - 17));
                 }
                 result.append("```");
