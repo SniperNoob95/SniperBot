@@ -1,7 +1,6 @@
 package Utils;
 
 import Bot.SniperBot;
-import Commands.MemberMessages;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -10,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -19,6 +20,7 @@ public class DatabaseClient {
     private String dbPassword;
     private String dbHost;
     private String dbDatabase;
+    private DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 
     public DatabaseClient() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("config");
@@ -159,5 +161,81 @@ public class DatabaseClient {
         }
 
         return -1;
+    }
+
+    public int totalSales() throws SQLException {
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUser(dbUser);
+        dataSource.setPassword(dbPassword);
+        dataSource.setServerName(dbHost);
+        dataSource.setDatabaseName(dbDatabase);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Sales");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            SniperBot.botLogger.logError("[DatabaseWriter.totalSales] - Failed to get total sales count.");
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return -1;
+    }
+
+    public String itemSales(String item) throws SQLException{
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUser(dbUser);
+        dataSource.setPassword(dbPassword);
+        dataSource.setServerName(dbHost);
+        dataSource.setDatabaseName(dbDatabase);
+
+        StringBuilder result = new StringBuilder("```Date\tItem\tQuality\tSpell1\tSpell2\tPrice (Keys)```");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Sales WHERE item LIKE `%?%` ORDER BY price");
+            preparedStatement.setString(1, item);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.getFetchSize() > 18) {
+                result.append("\n```");
+                while (resultSet.next()) {
+                    String date = dateFormat.format(resultSet.getDate("date"));
+                    String itemName = resultSet.getString("item");
+                    String quality = resultSet.getString("itemQuality");
+                    String spell1 = resultSet.getString("spell1");
+                    String spell2 = resultSet.getString("spell2");
+                    String price = resultSet.getBigDecimal("price").toPlainString();
+                    result.append(String.format("\\n%s\\t%s\\t%s\\t%s\\t%s\\t%s", date, itemName, quality, spell1, spell2, price));
+                }
+                result.append("```");
+                return result.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            SniperBot.botLogger.logError("[DatabaseWriter.memberMessages] - Failed to get item sales.");
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return null;
     }
 }

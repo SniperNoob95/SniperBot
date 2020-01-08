@@ -3,13 +3,11 @@ package Commands;
 import Bot.SniperBot;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Objects;
 
-public class MemberMessages {
+public class ItemSales {
 
-    public static void sendMemberMessages(MessageReceivedEvent event) {
+    public static void sendItemSales(MessageReceivedEvent event) {
         try {
             if (Objects.requireNonNull(event.getMember()).getRoles().get(0).getName().equals("Restricted")) {
                 event.getChannel().sendTyping().complete();
@@ -21,19 +19,25 @@ public class MemberMessages {
             SniperBot.botLogger.logError("[MemberMessages.sendMemberMessages] - Failed to check member's top role.");
         }
 
-        try {
-            int count = SniperBot.databaseClient.memberMessages(event);
+        String item;
+
+        if (event.getMessage().getContentRaw().split("\\s+").length == 2) {
+            item = event.getMessage().getContentRaw().split("\\s+")[1];
+        } else {
             event.getChannel().sendTyping().complete();
-            if (count != -1) {
-                event.getChannel().sendMessage(String.format("%s has sent %s messages in this server.", Objects.requireNonNull(event.getMember()).getEffectiveName(), NumberFormat.getNumberInstance(Locale.US).format(count))).queue();
-            } else {
-                event.getChannel().sendMessage("Unable to retrieve message count for this member.").queue();
-            }
+            event.getChannel().sendMessage("Please enter one item name to search for.").queue();
+            return;
+        }
+
+        try {
+            String sales = SniperBot.databaseClient.itemSales(item);
+            event.getChannel().sendTyping().complete();
+            event.getChannel().sendMessage(Objects.requireNonNullElse(sales, "No sales found.")).queue();
         } catch (Exception e) {
             e.printStackTrace();
-            SniperBot.botLogger.logError("[MemberMessages.sendMemberMessages] - Unable to get member message count.");
+            SniperBot.botLogger.logError("[ItemSales.sendItemSales] - Unable to get item sales.");
             event.getChannel().sendTyping().complete();
-            event.getChannel().sendMessage("Unable to retrieve message count for this member.").queue();
+            event.getChannel().sendMessage("Unable to item sales.").queue();
         }
     }
 }

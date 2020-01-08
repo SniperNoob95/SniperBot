@@ -6,6 +6,7 @@ import Commands.BuyerRole;
 import Commands.FFOTD;
 import Commands.Help;
 import Commands.Info;
+import Commands.ItemSales;
 import Commands.Join;
 import Commands.MemberCount;
 import Commands.MemberMessages;
@@ -14,6 +15,7 @@ import Commands.Ping;
 import Commands.SellerRole;
 import Commands.Staff;
 import Commands.TotalMessages;
+import Commands.TotalSales;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -178,6 +180,26 @@ public class EventManager extends ListenerAdapter {
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !notify command into database.");
             }
             Notify.sendNotification(event);
+        }
+
+        if (args[0].equals("!salesTotal")) {
+            try {
+                SniperBot.databaseClient.insertCommand(event);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !salesTotal command into database.");
+            }
+            TotalSales.sendTotalSales(event);
+        }
+
+        if (args[0].equals("!itemSales")) {
+            try {
+                SniperBot.databaseClient.insertCommand(event);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !itemSales command into database.");
+            }
+            ItemSales.sendItemSales(event);
         }
     }
 }
