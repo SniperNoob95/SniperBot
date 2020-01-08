@@ -226,8 +226,8 @@ public class DatabaseClient {
                     String spell2 = resultSet.getString("spell2");
                     String price = resultSet.getBigDecimal("price").toPlainString();
                     result.append(String.format("\n%s\t%s\t%s\t%s\t%s\t%s", date, itemName, quality, spell1, spell2, price));
-                    result.append(String.format("+%s results...", resultSet.getFetchSize() - 17));
                 }
+                result.append(String.format("```\n```+%s results...", resultSet.getFetchSize() - 17));
                 result.append("```");
                 return result.toString();
             } else if (rowCount != 0) {

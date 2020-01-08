@@ -38,11 +38,16 @@ public class FFOTD {
             chosenMember = memberList.get(random.nextInt(memberList.size()));
         }
 
+        boolean previousFFOTD = false;
         for (Member member : memberList) {
             if (member.getRoles().contains(roles.get(0))) {
                 event.getGuild().removeRoleFromMember(member, roles.get(0)).complete();
+                previousFFOTD = true;
                 break;
             }
+        }
+
+        if (!previousFFOTD) {
             event.getChannel().sendTyping().complete();
             event.getChannel().sendMessage("No previous FFOTD found.").queue();
         }
