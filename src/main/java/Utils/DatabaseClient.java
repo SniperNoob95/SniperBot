@@ -207,8 +207,8 @@ public class DatabaseClient {
         PreparedStatement preparedStatement = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Sales WHERE item LIKE `%?%` ORDER BY price");
-            preparedStatement.setString(1, item);
+            preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Sales WHERE item LIKE ? ORDER BY price");
+            preparedStatement.setString(1, "%" + item + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.getFetchSize() > 18) {
                 result.append("\n```");
