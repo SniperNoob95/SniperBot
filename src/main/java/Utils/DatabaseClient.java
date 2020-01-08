@@ -210,9 +210,14 @@ public class DatabaseClient {
             preparedStatement = connection.prepareStatement("SELECT date, item, itemQuality, spell1, spell2, price FROM Sales WHERE item LIKE ? ORDER BY price");
             preparedStatement.setString(1, "%" + item + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println(resultSet.getFetchSize());
+            int rowCount = 0;
+            while (resultSet.next()) {
+                ++rowCount;
+            }
+            System.out.println(rowCount);
+            resultSet.beforeFirst();
             result.append("\n```");
-            if (resultSet.getFetchSize() > 18) {
+            if (rowCount > 18) {
                 for (int i = 0; i < 17; i++) {
                     resultSet.next();
                     String date = dateFormat.format(resultSet.getDate("date"));
@@ -226,7 +231,7 @@ public class DatabaseClient {
                 }
                 result.append("```");
                 return result.toString();
-            } else if (resultSet.getFetchSize() != 0) {
+            } else if (rowCount != 0) {
                 while (resultSet.next()) {
                     String date = dateFormat.format(resultSet.getDate("date"));
                     String itemName = resultSet.getString("item");
