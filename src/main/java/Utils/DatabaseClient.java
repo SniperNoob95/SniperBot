@@ -210,8 +210,22 @@ public class DatabaseClient {
             preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM Sales WHERE item LIKE ? ORDER BY price");
             preparedStatement.setString(1, "%" + item + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
+            result.append("\n```");
             if (resultSet.getFetchSize() > 18) {
-                result.append("\n```");
+                for (int i = 0; i < 17; i++) {
+                    resultSet.next();
+                    String date = dateFormat.format(resultSet.getDate("date"));
+                    String itemName = resultSet.getString("item");
+                    String quality = resultSet.getString("itemQuality");
+                    String spell1 = resultSet.getString("spell1");
+                    String spell2 = resultSet.getString("spell2");
+                    String price = resultSet.getBigDecimal("price").toPlainString();
+                    result.append(String.format("\\n%s\\t%s\\t%s\\t%s\\t%s\\t%s", date, itemName, quality, spell1, spell2, price));
+                    result.append(String.format("+%s results...", resultSet.getFetchSize() - 17));
+                }
+                result.append("```");
+                return result.toString();
+            } else if (resultSet.getFetchSize() != 0) {
                 while (resultSet.next()) {
                     String date = dateFormat.format(resultSet.getDate("date"));
                     String itemName = resultSet.getString("item");
@@ -223,10 +237,13 @@ public class DatabaseClient {
                 }
                 result.append("```");
                 return result.toString();
+            } else {
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[DatabaseWriter.memberMessages] - Failed to get item sales.");
+            return "Error while retrieving sales.";
         } finally {
             if (preparedStatement != null && !preparedStatement.isClosed()) {
                 preparedStatement.close();
@@ -235,7 +252,5 @@ public class DatabaseClient {
                 connection.close();
             }
         }
-
-        return null;
     }
 }

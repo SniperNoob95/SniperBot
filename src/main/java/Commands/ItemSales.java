@@ -32,11 +32,7 @@ public class ItemSales {
         try {
             String sales = SniperBot.databaseClient.itemSales(item);
             event.getChannel().sendTyping().complete();
-            if (sales != null) {
-                event.getChannel().sendMessage(sales).queue();
-            } else {
-                event.getChannel().sendMessage("No sales found.").queue();
-            }
+            event.getChannel().sendMessage(Objects.requireNonNullElse(sales, "No sales found.")).queue();
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[ItemSales.sendItemSales] - Unable to get item sales.");
