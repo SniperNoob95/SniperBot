@@ -210,6 +210,7 @@ public class DatabaseClient {
             preparedStatement = connection.prepareStatement("SELECT date, item, itemQuality, spell1, spell2, price FROM Sales WHERE item LIKE ? ORDER BY price");
             preparedStatement.setString(1, "%" + item + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println(resultSet.getFetchSize());
             result.append("\n```");
             if (resultSet.getFetchSize() > 18) {
                 for (int i = 0; i < 17; i++) {
