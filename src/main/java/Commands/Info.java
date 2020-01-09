@@ -13,7 +13,7 @@ public class Info {
         EmbedBuilder info = new EmbedBuilder();
         info.setTitle("Information");
         info.setDescription("Information about the bot and server.");
-        info.setColor(Color.RED);
+        info.setColor(Color.GREEN);
 
         info.addField("Server", String.format("Members: %d", event.getGuild().getMembers().size()), false);
 

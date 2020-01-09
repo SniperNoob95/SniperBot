@@ -22,7 +22,7 @@ public class MemberMessages {
         }
 
         try {
-            int count = SniperBot.databaseClient.memberMessages(event);
+            int count = SniperBot.databaseClient.getMemberMessages(event);
             event.getChannel().sendTyping().complete();
             if (count != -1) {
                 event.getChannel().sendMessage(String.format("%s has sent %s messages in this server.", Objects.requireNonNull(event.getMember()).getEffectiveName(), NumberFormat.getNumberInstance(Locale.US).format(count))).queue();

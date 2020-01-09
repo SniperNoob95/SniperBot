@@ -11,10 +11,10 @@ public class BotLogger {
     public BotLogger() {
         try {
             this.botLogChannel = SniperBot.jda.getTextChannelsByName("bot-log", false).get(0).getIdLong();
-            System.out.println(botLogChannel);
         } catch (Exception e) {
             e.printStackTrace();
             botLogChannel = 0L;
+            System.out.println("Couldn't find logging channel.");
         }
     }
 

@@ -4,6 +4,7 @@ import Bot.SniperBot;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,7 +101,44 @@ public class DatabaseClient {
         }
     }
 
-    public int memberMessages(MessageReceivedEvent event) throws SQLException{
+    public void insertSale(String[] saleAttributes) throws SQLException {
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUser(dbUser);
+        dataSource.setPassword(dbPassword);
+        dataSource.setServerName(dbHost);
+        dataSource.setDatabaseName(dbDatabase);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement("INSERT INTO Sales (date, enteredID, enteredName, sellerID, sellerName, item, itemQuality, spell1, spell2, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            preparedStatement.setString(2, saleAttributes[0]);
+            preparedStatement.setString(3, saleAttributes[1]);
+            preparedStatement.setString(4, saleAttributes[2]);
+            preparedStatement.setString(5, saleAttributes[3]);
+            preparedStatement.setString(6, saleAttributes[4]);
+            preparedStatement.setString(7, saleAttributes[5]);
+            preparedStatement.setString(8, saleAttributes[6]);
+            preparedStatement.setString(9, saleAttributes[7]);
+            preparedStatement.setBigDecimal(10, BigDecimal.valueOf(Double.parseDouble(saleAttributes[8])));
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            SniperBot.botLogger.logError("[DatabaseWriter.insertSale] - Failed to insert sale.");
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    public int getMemberMessages(MessageReceivedEvent event) throws SQLException{
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser(dbUser);
         dataSource.setPassword(dbPassword);
@@ -132,7 +170,7 @@ public class DatabaseClient {
         return -1;
     }
 
-    public int totalMessages() throws SQLException {
+    public int getTotalMessages() throws SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser(dbUser);
         dataSource.setPassword(dbPassword);
@@ -163,7 +201,7 @@ public class DatabaseClient {
         return -1;
     }
 
-    public int totalSales() throws SQLException {
+    public int getTotalSales() throws SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser(dbUser);
         dataSource.setPassword(dbPassword);
@@ -194,7 +232,7 @@ public class DatabaseClient {
         return -1;
     }
 
-    public String itemSales(String item) throws SQLException{
+    public String getItemSales(String item) throws SQLException{
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser(dbUser);
         dataSource.setPassword(dbPassword);

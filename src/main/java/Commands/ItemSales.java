@@ -9,6 +9,18 @@ public class ItemSales {
 
     public static void sendItemSales(MessageReceivedEvent event) {
         try {
+            if (!event.getChannel().getName().equals("price-checking")) {
+                event.getChannel().sendTyping().complete();
+                event.getChannel().sendMessage(String.format("Sales can only be queried in the %s channel",
+                        event.getGuild().getTextChannelsByName("price-checking", false).get(0).getAsMention())).queue();
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            SniperBot.botLogger.logError("[ItemSales.sendItemSales] - Failed to check channel.");
+        }
+
+        try {
             if (Objects.requireNonNull(event.getMember()).getRoles().get(0).getName().equals("Restricted")) {
                 event.getChannel().sendTyping().complete();
                 event.getChannel().sendMessage("You do not have permission to do this.").queue();
@@ -30,7 +42,7 @@ public class ItemSales {
         }
 
         try {
-            String sales = SniperBot.databaseClient.itemSales(item);
+            String sales = SniperBot.databaseClient.getItemSales(item);
             event.getChannel().sendTyping().complete();
             event.getChannel().sendMessage(Objects.requireNonNullElse(sales, String.format("No sales found for `%s`.", item))).queue();
         } catch (Exception e) {

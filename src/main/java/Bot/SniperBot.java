@@ -34,6 +34,6 @@ public class SniperBot {
         botLogger = new BotLogger();
         databaseClient = new DatabaseClient();
 
-        botLogger.logMessage("[FireBot.main] - New bot session started.");
+        botLogger.logMessage("[SniperBot.main] - New bot session started.");
     }
 }
