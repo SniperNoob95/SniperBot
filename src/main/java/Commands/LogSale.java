@@ -15,6 +15,18 @@ public class LogSale {
                 "\n```!logSale | Member(mention) | Item | Quality | Spell1 | Spell2/None | Price```" +
                 "\nExample: ```!logSale | @Sniper Noob | Crone's Dome | Haunted | Spectral | TSFP | 10.5```";
 
+        try {
+            if (!event.getChannel().getName().equals("sales-logging")) {
+                event.getChannel().sendTyping().complete();
+                event.getChannel().sendMessage(String.format("Sales can only be logged in the %s channel",
+                        event.getGuild().getTextChannelsByName("sales-logging", false).get(0).getAsMention())).queue();
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            SniperBot.botLogger.logError("[LogSale.logSale] - Failed to check channel.");
+        }
+
         if (event.getMessage().getMentionedMembers().size() != 1) {
             event.getChannel().sendTyping().complete();
             event.getChannel().sendMessage(formatMessage).queue();
@@ -37,18 +49,6 @@ public class LogSale {
         } catch (NullPointerException npe) {
             npe.printStackTrace();
             SniperBot.botLogger.logError("[LogSale.logSale] - Failed to check member's roles for the Sales Logger role.");
-        }
-
-        try {
-            if (!event.getChannel().getName().equals("sales-logging")) {
-                event.getChannel().sendTyping().complete();
-                event.getChannel().sendMessage(String.format("Sales can only be logged in the %s channel",
-                        event.getGuild().getTextChannelsByName("sales-logging", false).get(0).getAsMention())).queue();
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            SniperBot.botLogger.logError("[LogSale.logSale] - Failed to check channel.");
         }
 
         // enteredID, enteredName, sellerID, sellerName, item, itemQuality, spell1, spell2, price
