@@ -20,17 +20,6 @@ public class ItemSales {
             SniperBot.botLogger.logError("[ItemSales.sendItemSales] - Failed to check channel.");
         }
 
-        try {
-            if (Objects.requireNonNull(event.getMember()).getRoles().get(0).getName().equals("Restricted")) {
-                event.getChannel().sendTyping().complete();
-                event.getChannel().sendMessage("You do not have permission to do this.").queue();
-                return;
-            }
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            SniperBot.botLogger.logError("[MemberMessages.sendMemberMessages] - Failed to check member's top role.");
-        }
-
         String item;
 
         if (event.getMessage().getContentRaw().split("\\s+").length == 2) {

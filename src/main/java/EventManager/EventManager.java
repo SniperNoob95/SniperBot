@@ -60,7 +60,7 @@ public class EventManager extends ListenerAdapter {
 
         String[] args = message.getContentRaw().split("\\s+");
 
-        if (args[0].equals("!ping")) {
+        if (args[0].toLowerCase().equals("!ping")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class EventManager extends ListenerAdapter {
             Ping.sendPing(event);
         }
 
-        if (args[0].equals("!members")) {
+        if (args[0].toLowerCase().equals("!members")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class EventManager extends ListenerAdapter {
             MemberCount.sendMemberCount(event);
         }
 
-        if (args[0].equals("!buyer")) {
+        if (args[0].toLowerCase().equals("!buyer")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class EventManager extends ListenerAdapter {
             BuyerRole.applyBuyerRole(event);
         }
 
-        if (args[0].equals("!seller")) {
+        if (args[0].toLowerCase().equals("!seller")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -100,7 +100,7 @@ public class EventManager extends ListenerAdapter {
             SellerRole.applySellerRole(event);
         }
 
-        if (args[0].equals("!staff")) {
+        if (args[0].toLowerCase().equals("!staff")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class EventManager extends ListenerAdapter {
             Staff.sendStaff(event);
         }
 
-        if (args[0].equals("!admit")) {
+        if (args[0].toLowerCase().equals("!admit")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -120,7 +120,7 @@ public class EventManager extends ListenerAdapter {
             Admit.admitMember(event);
         }
 
-        if (args[0].equals("!join")) {
+        if (args[0].toLowerCase().equals("!join")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class EventManager extends ListenerAdapter {
             Join.requestJoin(event);
         }
 
-        if (args[0].equals("!info")) {
+        if (args[0].toLowerCase().equals("!info")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -140,7 +140,7 @@ public class EventManager extends ListenerAdapter {
             Info.sendInfo(event);
         }
 
-        if (args[0].equals("!messages")) {
+        if (args[0].toLowerCase().equals("!messages")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -150,7 +150,7 @@ public class EventManager extends ListenerAdapter {
             MemberMessages.sendMemberMessages(event);
         }
 
-        if (args[0].equals("!messageTotal")) {
+        if (args[0].toLowerCase().equals("!messagetotal")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -160,7 +160,7 @@ public class EventManager extends ListenerAdapter {
             TotalMessages.sendTotalMessages(event);
         }
 
-        if (args[0].equals("!help")) {
+        if (args[0].toLowerCase().equals("!help")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -170,7 +170,7 @@ public class EventManager extends ListenerAdapter {
             Help.sendHelp(event);
         }
 
-        if (args[0].equals("!FFOTD")) {
+        if (args[0].toLowerCase().equals("!ffotd")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -180,7 +180,7 @@ public class EventManager extends ListenerAdapter {
             FFOTD.changeFFOTD(event);
         }
 
-        if (args[0].equals("!notify")) {
+        if (args[0].toLowerCase().equals("!notify")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -190,7 +190,7 @@ public class EventManager extends ListenerAdapter {
             Notify.sendNotification(event);
         }
 
-        if (args[0].equals("!salesTotal")) {
+        if (args[0].toLowerCase().equals("!salestotal")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -200,7 +200,7 @@ public class EventManager extends ListenerAdapter {
             TotalSales.sendTotalSales(event);
         }
 
-        if (args[0].equals("!itemSales")) {
+        if (args[0].toLowerCase().equals("!itemsales")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -210,7 +210,7 @@ public class EventManager extends ListenerAdapter {
             ItemSales.sendItemSales(event);
         }
 
-        if (args[0].equals("!logSale")) {
+        if (args[0].toLowerCase().equals("!logsale")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
@@ -220,7 +220,7 @@ public class EventManager extends ListenerAdapter {
             LogSale.logSale(event);
         }
 
-        if (args[0].equals("!restricted")) {
+        if (args[0].toLowerCase().equals("!restricted")) {
             try {
                 SniperBot.databaseClient.insertCommand(event);
             } catch (SQLException e) {
