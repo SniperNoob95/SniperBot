@@ -22,8 +22,8 @@ public class ItemSales {
 
         String item;
 
-        if (event.getMessage().getContentRaw().split("\\s+").length == 2) {
-            item = event.getMessage().getContentRaw().split("\\s+")[1];
+        if (event.getMessage().getContentRaw().split("\\s+", 2).length == 2) {
+            item = event.getMessage().getContentRaw().split("\\s+", 2)[1];
         } else {
             event.getChannel().sendTyping().complete();
             event.getChannel().sendMessage("Please enter one item name to search for.").queue();
