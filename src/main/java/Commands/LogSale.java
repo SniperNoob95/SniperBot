@@ -78,7 +78,7 @@ public class LogSale {
         }
 
         try {
-            SniperBot.databaseClient.insertSale(saleAttributes);
+            SniperBot.APIClient.insertSale(saleAttributes);
         } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[LogSale.logSale] - Failed to insert sale.");

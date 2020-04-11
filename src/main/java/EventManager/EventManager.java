@@ -29,7 +29,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class EventManager extends ListenerAdapter {
@@ -48,8 +47,8 @@ public class EventManager extends ListenerAdapter {
 
         try {
             System.out.println(String.format("Storing message: %s", event.getMessage().getContentRaw()));
-            SniperBot.databaseClient.insertMessage(event);
-        } catch (SQLException e) {
+            SniperBot.APIClient.insertMessage(event);
+        } catch (Exception e) {
             e.printStackTrace();
             SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert message into database.");
         }
@@ -62,8 +61,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!ping")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !ping command into database.");
             }
@@ -72,8 +71,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!members")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !members command into database.");
             }
@@ -82,8 +81,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!buyer")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !buyer command into database.");
             }
@@ -92,8 +91,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!seller")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !seller command into database.");
             }
@@ -102,8 +101,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!staff")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !staff command into database.");
             }
@@ -112,8 +111,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!admit")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !admit command into database.");
             }
@@ -122,8 +121,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!join")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !join command into database.");
             }
@@ -132,8 +131,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!info")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !info command into database.");
             }
@@ -142,8 +141,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!messages")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !messages command into database.");
             }
@@ -152,8 +151,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!messagetotal")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !messageTotal command into database.");
             }
@@ -162,8 +161,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!help")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !help command into database.");
             }
@@ -172,8 +171,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!ffotd")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !FFOTD command into database.");
             }
@@ -182,8 +181,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!notify")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !notify command into database.");
             }
@@ -192,8 +191,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!salestotal")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !salesTotal command into database.");
             }
@@ -202,8 +201,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!itemsales")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !itemSales command into database.");
             }
@@ -212,8 +211,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!logsale")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !logSale command into database.");
             }
@@ -222,8 +221,8 @@ public class EventManager extends ListenerAdapter {
 
         if (args[0].toLowerCase().equals("!restricted")) {
             try {
-                SniperBot.databaseClient.insertCommand(event);
-            } catch (SQLException e) {
+                SniperBot.APIClient.insertCommand(event);
+            } catch (Exception e) {
                 e.printStackTrace();
                 SniperBot.botLogger.logError("[EventManager.onMessageReceived] - Failed to insert !restricted command into database.");
             }

@@ -22,7 +22,7 @@ public class TotalSales {
         }
 
         try {
-            int count = SniperBot.databaseClient.getTotalSales();
+            int count = SniperBot.APIClient.getTotalSales();
             event.getChannel().sendTyping().complete();
             if (count != -1) {
                 event.getChannel().sendMessage(String.format("There have been %s total sales logged in this server.", NumberFormat.getNumberInstance(Locale.US).format(count))).queue();

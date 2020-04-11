@@ -22,7 +22,7 @@ public class TotalMessages {
         }
 
         try {
-            int count = SniperBot.databaseClient.getTotalMessages();
+            int count = SniperBot.APIClient.getTotalMessages();
             event.getChannel().sendTyping().complete();
             if (count != -1) {
                 event.getChannel().sendMessage(String.format("There have been %s total messages sent in this server.", NumberFormat.getNumberInstance(Locale.US).format(count))).queue();

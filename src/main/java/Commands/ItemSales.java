@@ -31,7 +31,7 @@ public class ItemSales {
         }
 
         try {
-            String sales = SniperBot.databaseClient.getItemSales(item);
+            String sales = SniperBot.APIClient.getItemSales(item);
             event.getChannel().sendTyping().complete();
             event.getChannel().sendMessage(Objects.requireNonNullElse(sales, String.format("No sales found for `%s`.", item))).queue();
         } catch (Exception e) {
