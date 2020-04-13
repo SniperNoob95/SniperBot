@@ -51,7 +51,7 @@ public class APIClient {
         payload.put("userName", event.getAuthor().getName());
         payload.put("userID", event.getAuthor().getId());
         payload.put("userDiscriminator", event.getAuthor().getDiscriminator());
-        payload.put("content", event.getMessage().getContentRaw());
+        payload.put("content", event.getMessage().getContentRaw().replace("\\x", ""));
 
         try {
             HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofString(payload.toString())).header("Content-type", "application/json").uri(URI.create(URL + "/messages")).build();
