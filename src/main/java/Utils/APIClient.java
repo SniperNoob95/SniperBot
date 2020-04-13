@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,7 +52,9 @@ public class APIClient {
         payload.put("userName", event.getAuthor().getName());
         payload.put("userID", event.getAuthor().getId());
         payload.put("userDiscriminator", event.getAuthor().getDiscriminator());
-        payload.put("content", event.getMessage().getContentRaw().replace("\\x", ""));
+
+        byte[] utf8Content = event.getMessage().getContentRaw().getBytes(StandardCharsets.UTF_8);
+        payload.put("content", new String(utf8Content, StandardCharsets.UTF_8));
 
         try {
             HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofString(payload.toString())).header("Content-type", "application/json").uri(URI.create(URL + "/messages")).build();
