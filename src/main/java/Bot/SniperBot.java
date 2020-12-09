@@ -27,8 +27,9 @@ public class SniperBot {
             System.exit(0);
         }
 
-        jda = new JDABuilder(token).addEventListeners(new EventManager()).build();
-        jda.awaitReady();
+        jda = JDABuilder.createDefault(token).addEventListeners(new EventManager()).build().awaitReady();
+        // jda = new JDABuilder(token).addEventListeners(new EventManager()).build();
+
         jda.getPresence().setActivity(Activity.watching("for commands."));
 
         botLogger = new BotLogger();
