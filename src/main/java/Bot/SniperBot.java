@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
 import java.util.ResourceBundle;
@@ -28,7 +30,7 @@ public class SniperBot {
             System.exit(0);
         }
 
-        jda = JDABuilder.createDefault(token).enableIntents(GatewayIntent.GUILD_MEMBERS).addEventListeners(new EventManager()).build().awaitReady();
+        jda = JDABuilder.createDefault(token).enableIntents(GatewayIntent.GUILD_MEMBERS).setChunkingFilter(ChunkingFilter.ALL).setMemberCachePolicy(MemberCachePolicy.ALL).addEventListeners(new EventManager()).build().awaitReady();
         // jda = new JDABuilder(token).addEventListeners(new EventManager()).build();
 
         jda.getPresence().setActivity(Activity.watching("for commands."));
