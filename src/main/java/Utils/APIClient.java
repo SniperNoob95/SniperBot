@@ -8,15 +8,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -30,7 +25,6 @@ public class APIClient {
     private DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
     private SimpleDateFormat parseFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     private String URL;
-    //private HttpClient httpClient = HttpClient.newHttpClient();
     private OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
 
     public APIClient() {
@@ -138,6 +132,7 @@ public class APIClient {
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
+            System.out.println(responseBody.toString(4));
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getMemberMessages] - Failed to get member messages, got %s from server.", response.code()));
