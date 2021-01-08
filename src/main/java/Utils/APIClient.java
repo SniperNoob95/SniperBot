@@ -187,11 +187,11 @@ public class APIClient {
 
     public String getItemSales(String item) {
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/messages/count")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/sales/item")).newBuilder();
             builder.addQueryParameter("itemName", item);
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());
+            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());;
 
            if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getItemSales] - Failed to get item sales, got %s from server.", response.code()));
