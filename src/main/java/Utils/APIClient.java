@@ -131,8 +131,8 @@ public class APIClient {
             builder.addQueryParameter("userID", event.getAuthor().getId());
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
-            System.out.println(response.body());
+            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
+            System.out.println(response.body().toString());
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getMemberMessages] - Failed to get member messages, got %s from server.", response.code()));
@@ -151,8 +151,8 @@ public class APIClient {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/messages/total")).newBuilder();
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
-            System.out.println(response.body());
+            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
+            System.out.println(response.body().toString());
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getTotalMessages] - Failed to get total messages, got %s from server.", response.code()));
@@ -171,7 +171,7 @@ public class APIClient {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/sales/total")).newBuilder();
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
+            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getTotalSales] - Failed to get total sales, got %s from server.", response.code()));
@@ -191,7 +191,7 @@ public class APIClient {
             builder.addQueryParameter("itemName", item);
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()));
+            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());
 
            if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getItemSales] - Failed to get item sales, got %s from server.", response.code()));
