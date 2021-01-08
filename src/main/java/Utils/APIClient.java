@@ -132,7 +132,7 @@ public class APIClient {
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
-            System.out.println(responseBody.toString(4));
+            System.out.println(response.body());
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getMemberMessages] - Failed to get member messages, got %s from server.", response.code()));
@@ -152,6 +152,7 @@ public class APIClient {
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()));
+            System.out.println(response.body());
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getTotalMessages] - Failed to get total messages, got %s from server.", response.code()));
