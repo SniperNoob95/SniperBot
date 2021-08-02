@@ -60,7 +60,7 @@ public class APIClient {
         payload.put("content", new String(utf8Content, StandardCharsets.UTF_8));
 
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/messages")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
             Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
@@ -83,7 +83,7 @@ public class APIClient {
         payload.put("command", event.getMessage().getContentRaw().split("\\s+")[0]);
 
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/commands")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/commands")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
             Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
@@ -111,7 +111,7 @@ public class APIClient {
         payload.put("price", Double.parseDouble(saleAttributes[8]));
 
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/sales")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
             Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
@@ -127,11 +127,11 @@ public class APIClient {
 
     public int getMemberMessages(MessageReceivedEvent event) {
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/messages/count")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages/count")).newBuilder();
             builder.addQueryParameter("userID", event.getAuthor().getId());
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
+            JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
             System.out.println(response.body().toString());
 
             if (response.code() != 200) {
@@ -148,10 +148,10 @@ public class APIClient {
 
     public int getTotalMessages() {
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/messages/total")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages/total")).newBuilder();
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
+            JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
             System.out.println(response.body().toString());
 
             if (response.code() != 200) {
@@ -168,10 +168,10 @@ public class APIClient {
 
     public int getTotalSales() {
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/sales/total")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales/total")).newBuilder();
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONObject responseBody = new JSONObject(Objects.requireNonNull(response.body()).string());
+            JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
 
             if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getTotalSales] - Failed to get total sales, got %s from server.", response.code()));
@@ -187,11 +187,11 @@ public class APIClient {
 
     public String getItemSales(String item) {
         try {
-            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "SB/sales/item")).newBuilder();
+            HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales/item")).newBuilder();
             builder.addQueryParameter("itemName", item);
             Request request = new Request.Builder().url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
-            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());;
+            JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());
 
            if (response.code() != 200) {
                 SniperBot.botLogger.logError(String.format("[APIClient.getItemSales] - Failed to get item sales, got %s from server.", response.code()));
