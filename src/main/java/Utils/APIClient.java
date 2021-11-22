@@ -25,12 +25,16 @@ public class APIClient {
     private DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
     private SimpleDateFormat parseFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     private String URL;
+    private String user;
+    private String password;
     private OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
 
     public APIClient() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("config");
         try {
             URL = resourceBundle.getString("url");
+            user = resourceBundle.getString("APIUserName");
+            password = resourceBundle.getString("APIPassword");
             Response healthCheck = healthCheck();
 
             if (healthCheck.code() != 200) {
@@ -45,7 +49,7 @@ public class APIClient {
 
     private Response healthCheck() throws IOException {
         HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/health")).newBuilder();
-        Request request = new Request.Builder().url(builder.build().toString()).build();
+        Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
         return httpClient.newCall(request).execute();
     }
 
@@ -62,7 +66,7 @@ public class APIClient {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
-            Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
 
             if (response.code() != 201) {
@@ -85,7 +89,7 @@ public class APIClient {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/commands")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
-            Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
 
             if (response.code() != 201) {
@@ -113,7 +117,7 @@ public class APIClient {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales")).newBuilder();
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
-            Request request = new Request.Builder().url(builder.build().toString()).post(requestBody).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).post(requestBody).build();
             Response response = httpClient.newCall(request).execute();
 
             if (response.code() != 201) {
@@ -129,7 +133,7 @@ public class APIClient {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages/count")).newBuilder();
             builder.addQueryParameter("userID", event.getAuthor().getId());
-            Request request = new Request.Builder().url(builder.build().toString()).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
             System.out.println(response.body().toString());
@@ -149,7 +153,7 @@ public class APIClient {
     public int getTotalMessages() {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/messages/total")).newBuilder();
-            Request request = new Request.Builder().url(builder.build().toString()).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
             System.out.println(response.body().toString());
@@ -169,7 +173,7 @@ public class APIClient {
     public int getTotalSales() {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales/total")).newBuilder();
-            Request request = new Request.Builder().url(builder.build().toString()).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONObject responseBody = new JSONArray(Objects.requireNonNull(response.body()).string()).getJSONObject(0);
 
@@ -189,7 +193,7 @@ public class APIClient {
         try {
             HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/SB/sales/item")).newBuilder();
             builder.addQueryParameter("itemName", item);
-            Request request = new Request.Builder().url(builder.build().toString()).build();
+            Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
             Response response = httpClient.newCall(request).execute();
             JSONArray responseBody = new JSONArray(Objects.requireNonNull(response.body()).string());
 
