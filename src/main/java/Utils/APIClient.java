@@ -58,7 +58,7 @@ public class APIClient {
     public boolean updateHealthCheck(long timestamp) {
         JSONObject payload = new JSONObject();
         payload.put("last_updated", timestamp);
-        payload.put("resource", "Player Analytics Bot");
+        payload.put("resource", "Sniper Bot");
 
         try {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
