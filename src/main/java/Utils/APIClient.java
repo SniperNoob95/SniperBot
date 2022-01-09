@@ -27,6 +27,7 @@ public class APIClient {
     private String URL;
     private String user;
     private String password;
+    private String healthCheckUrl;
     private OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
 
     public APIClient() {
@@ -35,6 +36,7 @@ public class APIClient {
             URL = resourceBundle.getString("url");
             user = resourceBundle.getString("APIUserName");
             password = resourceBundle.getString("APIPassword");
+            healthCheckUrl = resourceBundle.getString("healthCheckUrl");
             Response healthCheck = healthCheck();
 
             if (healthCheck.code() != 200) {
@@ -51,6 +53,29 @@ public class APIClient {
         HttpUrl.Builder builder = Objects.requireNonNull(HttpUrl.parse(URL + "/health")).newBuilder();
         Request request = new Request.Builder().header("user", user).addHeader("password", password).url(builder.build().toString()).build();
         return httpClient.newCall(request).execute();
+    }
+
+    public boolean updateHealthCheck(long timestamp) {
+        JSONObject payload = new JSONObject();
+        payload.put("last_updated", timestamp);
+        payload.put("resource", "Player Analytics Bot");
+
+        try {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload.toString());
+            Request request = new Request.Builder().url(healthCheckUrl).put(requestBody).build();
+            Response response = httpClient.newCall(request).execute();
+
+            if (response.code() != 200) {
+                response.close();
+                return false;
+            }
+
+            response.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void insertMessage(MessageReceivedEvent event) {

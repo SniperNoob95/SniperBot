@@ -3,6 +3,7 @@ package Bot;
 import EventManager.EventManager;
 import Utils.BotLogger;
 import Utils.APIClient;
+import Utils.HealthCheckTimerTask;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -12,6 +13,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SniperBot {
     public static JDA jda;
@@ -38,6 +41,14 @@ public class SniperBot {
         botLogger = new BotLogger();
         APIClient = new APIClient();
 
+        scheduleHealthCheckTask();
+
         botLogger.logMessage("[SniperBot.main] - New bot session started.");
+    }
+
+    private static void scheduleHealthCheckTask() {
+        TimerTask healthCheckTimerTask = new HealthCheckTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(healthCheckTimerTask, 0, 60000);
     }
 }
